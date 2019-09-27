@@ -46,8 +46,6 @@
   $numRows = NULL;
   $numCols = NULL;
 
-
-
   function connectToDatabase() {
     global $servername, $username, $password, $dbname, $conn;
 
@@ -76,10 +74,6 @@
         table {
           width: 50%;
           margin: auto;
-        }
-
-        #updateDiv {
-          
         }
 
         th, td {
