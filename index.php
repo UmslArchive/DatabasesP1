@@ -78,6 +78,10 @@
           margin: auto;
         }
 
+        #updateDiv {
+          
+        }
+
         th, td {
           border: 1px solid black;
           border-collapse: collapse;
@@ -105,7 +109,7 @@
       //Print non-empty table.
       if($result->num_rows > 0) {
         //Table header.
-        echo "<table><tr>";
+        echo "<table id=\"currentTable\"><tr>";
         foreach($fields as &$name) {
           echo "<th>".$name."</th>";
         }
@@ -131,20 +135,13 @@
           echo "<td class=\"buttonRow\"> <button id=sortAscendingButton".$i.">Up</button> <button id=sortDescendingButton".$i.">Down</button> </td>";
         }
         echo "</tr>";
-
-        //Add new row button.
-        echo "<tr>";
-        for($i = 0; $i <= count($fields); $i++) {
-          if($i === count($fields)) {
-            echo "<td class=\"buttonRow\"> <button onclick=\"newRowClicked()\" id=\"newRowButton\">New Row</button> </td>";
-          }
-          else {
-            echo "<td class=\"buttonRow\"></td>";
-          }
-        }
         
         //End of table.
         echo "</tr></table>";
+
+        //Placed the button in a div, so javascript can change the innerHTML of the div on click.
+        echo "<br><br>";
+        echo "<div id=\"updateDiv\"> <button onclick=\"newRowClicked()\" id=\"newRowButton\">New Row</button> </div>";
       }      
     }
   }
