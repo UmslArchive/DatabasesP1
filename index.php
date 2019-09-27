@@ -8,6 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="clickEventFunctions.js"></script>
 </head>
 <body>
 
@@ -34,12 +35,18 @@
 <br>
 
 <?php
-  //Global Variables
+  //Global db connection variables.
   $servername = "localhost";
   $username = "root";
-  $password = "";
+  $password = "root";
   $dbname = "p1";
   $conn = NULL;
+
+  //Global table properties variables.
+  $numRows = NULL;
+  $numCols = NULL;
+
+
 
   function connectToDatabase() {
     global $servername, $username, $password, $dbname, $conn;
@@ -66,15 +73,26 @@
           font-weight: bold;
         }
 
-        table, th, td {
-          border: 1px solid black;
-          border-collapse: collapse;
+        table {
           width: 50%;
           margin: auto;
         }
+
+        th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+
+        .buttonRow {
+          border: 0px;
+        }
+
+        .buttonColumn {
+          border: 0px;
+        }
       </style>";
 
-    //Execute SQL query.
+    //Execute table selection query.
     connectToDatabase();
     $fields = array();
     $queryString = "select * from ".$tableName;
@@ -95,18 +113,40 @@
 
         //Tuples(rows).
         echo "<tr>";
-        while($row = mysqli_fetch_assoc($result)) {
+        for($j = 0; $j < $result->num_rows; $j++) {
+          $row = mysqli_fetch_assoc($result);
+
+          //Data
           for($i = 0; $i < count($fields); $i++) {
             echo "<td>".$row[$fields[$i]]."</td>";
           }
-          echo "</tr>";
-        }
-        echo "</table>";
-      }
-    }
-    
 
-    
+          //Append buttons to end of row.
+          echo "<td class=\"buttonColumn\"> <button id=editButton".$j.">Edit</button> </td> <td class=\"buttonColumn\"> <button class=\"deleteButtons\" id=deleteButton".$j.">Delete</button> </td> </tr>";
+        }
+
+        //Add sort buttons.
+        echo "<tr>";
+        for($i = 0; $i < count($fields); $i++) {
+          echo "<td class=\"buttonRow\"> <button id=sortAscendingButton".$i.">Up</button> <button id=sortDescendingButton".$i.">Down</button> </td>";
+        }
+        echo "</tr>";
+
+        //Add new row button.
+        echo "<tr>";
+        for($i = 0; $i <= count($fields); $i++) {
+          if($i === count($fields)) {
+            echo "<td class=\"buttonRow\"> <button onclick=\"newRowClicked()\" id=\"newRowButton\">New Row</button> </td>";
+          }
+          else {
+            echo "<td class=\"buttonRow\"></td>";
+          }
+        }
+        
+        //End of table.
+        echo "</tr></table>";
+      }      
+    }
   }
 
   function fetchCourse() {
