@@ -24,7 +24,7 @@
       <a class="nav-link" id="sectionButton" href='index.php?fetchSection=true'>Section</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="gradeButton" href='index.php?fetchGrade=true'>Grade Report</a>
+      <a class="nav-link" id="grade_reportButton" href='index.php?fetchGrade=true'>Grade Report</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" id="prerequisiteButton" href='index.php?fetchPrereq=true'>Prerequisite</a>
@@ -37,7 +37,7 @@
   //Global Variables
   $servername = "localhost";
   $username = "root";
-  $password = "root";
+  $password = "";
   $dbname = "p1";
   $conn = NULL;
 
@@ -54,32 +54,54 @@
   }
 
   //Fetch functions.
-  function fetchStudent() {
+  function fetchTable($tableName) {
     global $conn;
 
-    //Make studentButton orange.
+    //Apply styles.
     echo 
-      '<style>
-        #studentButton {
+      "<style>
+        #".$tableName."Button {
           color: orange;
           font-size: 110%;
           font-weight: bold;
         }
-      </style>';
 
-    connectToDatabase();
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          width: 50%;
+          margin: auto;
+        }
+      </style>";
 
     //Execute SQL query.
+    connectToDatabase();
     $fields = array();
-    $queryString = "select * from student";
+    $queryString = "select * from ".$tableName;
     if($result = $conn->query($queryString)) {
       //Fetch the header field names and push into fields array.
       while($fieldInfo = $result->fetch_field()) {
         array_push($fields, $fieldInfo->name);
       }
 
-      foreach($fields as &$name) {
-        echo $name." ";
+      //Print non-empty table.
+      if($result->num_rows > 0) {
+        //Table header.
+        echo "<table><tr>";
+        foreach($fields as &$name) {
+          echo "<th>".$name."</th>";
+        }
+        echo "</tr>";
+
+        //Tuples(rows).
+        echo "<tr>";
+        while($row = mysqli_fetch_assoc($result)) {
+          for($i = 0; $i < count($fields); $i++) {
+            echo "<td>".$row[$fields[$i]]."</td>";
+          }
+          echo "</tr>";
+        }
+        echo "</table>";
       }
     }
     
@@ -105,18 +127,18 @@
 
   //Entry point.
   if (isset($_GET['fetchStudent'])) {
-    fetchStudent();
+    fetchTable("student");
   }
   if (isset($_GET['fetchCourse'])) {
-    fetchCourse();
+    fetchTable("course");
   }
   if (isset($_GET['fetchSection'])) {
-    fetchSection();
+    fetchTable("section");
   }
   if (isset($_GET['fetchGrade'])) {
-    fetchGrade();
+    fetchTable("grade_report");
   }
   if (isset($_GET['fetchPrereq'])) {
-    fetchPrereq();
+    fetchTable("prerequisite");
   }
 ?>
