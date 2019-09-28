@@ -38,13 +38,16 @@
   //Global db connection variables.
   $servername = "localhost";
   $username = "root";
-  $password = "root";
+  $password = "";
   $dbname = "p1";
   $conn = NULL;
 
   //Global table properties variables.
   $numRows = NULL;
   $numCols = NULL;
+
+  //Global page tracker.
+  $GLOBALS["page"] = NULL;
 
   function connectToDatabase() {
     global $servername, $username, $password, $dbname, $conn;
@@ -135,41 +138,30 @@
 
         //Placed the button in a div, so javascript can change the innerHTML of the div on click.
         echo "<br><br>";
-        echo "<div id=\"updateDiv\"> <button onclick=\"newRowClicked()\" id=\"newRowButton\">New Row</button> </div>";
+        echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
       }      
     }
   }
 
-  function fetchCourse() {
-    echo 'course';
-  }
-
-  function fetchSection() {
-    echo 'section';
-  }
-
-  function fetchGrade() {
-    echo 'grade';
-  }
-
-  function fetchPrereq() {
-    echo 'prerequisite';
-  }
-
   //Entry point.
   if (isset($_GET['fetchStudent'])) {
+    $GLOBALS["page"] = "student";
     fetchTable("student");
   }
   if (isset($_GET['fetchCourse'])) {
+    $GLOBALS["page"] = "course";
     fetchTable("course");
   }
   if (isset($_GET['fetchSection'])) {
+    $GLOBALS["page"] = "section";
     fetchTable("section");
   }
   if (isset($_GET['fetchGrade'])) {
+    $GLOBALS["page"] = "grade_report";
     fetchTable("grade_report");
   }
   if (isset($_GET['fetchPrereq'])) {
+    $GLOBALS["page"] = "prerequisite";
     fetchTable("prerequisite");
   }
 ?>
