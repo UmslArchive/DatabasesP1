@@ -1,7 +1,7 @@
 <?php
     function insertRow($tableName) {
-        global $conn;
-        global $username;
+        global $servername, $username, $password, $dbname, $conn;
+        connectToDatabase();
 
         //Build sql statement.
         $count = count($_GET);
@@ -9,14 +9,13 @@
         $sql = "INSERT INTO ".$tableName." VALUES (";
         for($i = 0; $i < $count; $i++) {
             if($i !== $count - 1) {
-                $sql .= htmlspecialchars($_GET[$keys[$i]]) . ", ";
+                $sql .= "'".htmlspecialchars($_GET[$keys[$i]]) . "', ";
             }
             else {
-                $sql .= htmlspecialchars($_GET[$keys[$i]]) . ")";
+                $sql .= "'".htmlspecialchars($_GET[$keys[$i]]) . "')";
             }
         }
-
-        echo $sql;
-        echo "<br>".$tableName;
+        $result = $conn->query($sql);
+        mysqli_close($conn);
     }
 ?>

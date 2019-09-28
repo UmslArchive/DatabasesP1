@@ -135,11 +135,19 @@
         
         //End of table.
         echo "</tr></table>";
+      }
+      else {
+        //query failed.
+        echo "<br>Query failed. Table is probably empty. Dunno how to parse ->query() errors. Table isn't displayed because empty, so everything breaks.";
+        echo "<br>If the tables aren't empty, try changing the \$password variable to \"root\".0";
+      }
 
-        //Placed the button in a div, so javascript can change the innerHTML of the div on click.
-        echo "<br><br>";
-        echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
-      }      
+      //Placed the button in a div, so javascript can change the innerHTML of the div on click.
+      echo "<br><br>";
+      echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
+
+      //close the connection.
+      mysqli_close($conn);
     }
   }
 
