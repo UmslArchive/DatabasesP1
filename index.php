@@ -16,19 +16,19 @@
 <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" id="studentButton" href='index.php?fetchStudent=true'>Student</a>
+      <a class="nav-link" id="studentButton" href='index.php?fetchstudent=true'>Student</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="courseButton" href='index.php?fetchCourse=true'>Course</a>
+      <a class="nav-link" id="courseButton" href='index.php?fetchcourse=true'>Course</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="sectionButton" href='index.php?fetchSection=true'>Section</a>
+      <a class="nav-link" id="sectionButton" href='index.php?fetchsection=true'>Section</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="grade_reportButton" href='index.php?fetchGrade=true'>Grade Report</a>
+      <a class="nav-link" id="grade_reportButton" href='index.php?fetchgrade_report=true'>Grade Report</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="prerequisiteButton" href='index.php?fetchPrereq=true'>Prerequisite</a>
+      <a class="nav-link" id="prerequisiteButton" href='index.php?fetchprerequisite=true'>Prerequisite</a>
     </li>
   </ul>
 </nav>
@@ -91,6 +91,11 @@
         .buttonColumn {
           border: 0px;
         }
+
+        #updateDiv {
+          margin: auto;
+          width: 50%;
+        }
       </style>";
 
     //Execute table selection query.
@@ -112,18 +117,41 @@
         }
         echo "</tr>";
 
-        //Tuples(rows).
+        $pKeys = NULL; //Used to store a tables primary key value at a row.
         echo "<tr>";
-        for($j = 0; $j < $result->num_rows; $j++) {
+        //Build the table.
+        for($j = 0; $j < $result->num_rows; $j++) { //for each row
           $row = mysqli_fetch_assoc($result);
 
-          //Data
-          for($i = 0; $i < count($fields); $i++) {
+          //Data cells.
+          for($i = 0; $i < count($fields); $i++) { //for each column
+            //Primary key storage.
+            if($tableName === "student" && $i === 0) {
+              $pKeys = $row[$fields[$i]];
+            }
+            if($tableName === "course" && $i === 0) {
+              $pKeys = $row[$fields[$i]];
+            }
+            if($tableName === "section" && $i === 0) {
+              $pKeys = $row[$fields[$i]];
+            }
+            if($tableName === "prerequisite" && $i === 0) {
+              $pKeys = $row[$fields[$i]];
+            }
+            if($tableName === "grade_report" && $i === 0) {
+              $pKeys = $row[$fields[$i]];
+            }
+
             echo "<td>".$row[$fields[$i]]."</td>";
           }
 
           //Append buttons to end of row.
-          echo "<td class=\"buttonColumn\"> <button id=editButton".$j.">Edit</button> </td> <td class=\"buttonColumn\"> <button class=\"deleteButtons\" id=deleteButton".$j.">Delete</button> </td> </tr>";
+          echo  "<td class=\"buttonColumn\">".
+                  "<a href=\"index.php?fetch" . $GLOBALS["page"] . "=true&editRow=" . $pKeys . "\">Edit</a>".
+                "</td>".
+                "<td class=\"buttonColumn\">".
+                  "<a href=\"index.php?fetch" . $GLOBALS["page"] . "=true&deleteRow=" . $pKeys . "\">Delete</a>".
+                "</td> </tr>";
         }
 
         //Add sort buttons.
@@ -139,37 +167,84 @@
       else {
         //query failed.
         echo "<br>Query failed. Table is probably empty. Dunno how to parse ->query() errors. Table isn't displayed because empty, so everything breaks.";
-        echo "<br>If the tables aren't empty, try changing the \$password variable to \"root\".0";
+        echo "<br>If the tables aren't empty, try changing the \$password variable to \"root\".";
       }
-
-      //Placed the button in a div, so javascript can change the innerHTML of the div on click.
-      echo "<br><br>";
-      echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
 
       //close the connection.
       mysqli_close($conn);
     }
   }
 
-  //Entry point.
-  if (isset($_GET['fetchStudent'])) {
+
+  function deleteRow($tableName) {
+    global $conn;
+    connectToDatabase();
+
+    echo $tableName;
+  }
+  
+  //STUDENT
+  if (isset($_GET['fetchstudent'])) {
     $GLOBALS["page"] = "student";
+
+    //Update tables before display.
+    if(isset($_GET["deleteRow"])) {
+      deleteRow("student");
+    }
+
+    //Display table and load the webpage.
     fetchTable("student");
   }
-  if (isset($_GET['fetchCourse'])) {
+
+  //COURSE
+  if (isset($_GET['fetchcourse'])) {
     $GLOBALS["page"] = "course";
+
+    //Update.
+    if(isset($_GET["deleteRow"])) {
+      deleteRow("course");
+    }
+
     fetchTable("course");
   }
-  if (isset($_GET['fetchSection'])) {
+
+  //SECTION
+  if (isset($_GET['fetchsection'])) {
     $GLOBALS["page"] = "section";
+
+    //Update.
+    if(isset($_GET["deleteRow"])) {
+      deleteRow("section");
+    }
+
     fetchTable("section");
   }
-  if (isset($_GET['fetchGrade'])) {
+
+  //GRADE_REPORT
+  if (isset($_GET['fetchgrade_report'])) {
     $GLOBALS["page"] = "grade_report";
+
+    //Update.
+    if(isset($_GET["deleteRow"])) {
+      deleteRow("grade_report");
+    }
+
     fetchTable("grade_report");
   }
-  if (isset($_GET['fetchPrereq'])) {
+
+  //PREREQ
+  if (isset($_GET['fetchprerequisite'])) {
     $GLOBALS["page"] = "prerequisite";
+
+    //Update.
+    if(isset($_GET["deleteRow"])) {
+      deleteRow("prerequisite");
+    }
+    
     fetchTable("prerequisite");
   }
+
+  //Placed the new row button in a div, so javascript can change the innerHTML of the div on click.
+  echo "<br><br>";
+  echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
 ?>
