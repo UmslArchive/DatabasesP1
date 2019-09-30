@@ -38,7 +38,7 @@
   //Global db connection variables.
   $servername = "localhost";
   $username = "root";
-  $password = "";
+  $password = "root";
   $dbname = "p1";
   $conn = NULL;
 
@@ -96,6 +96,16 @@
           margin: auto;
           width: 50%;
         }
+
+        a.button {
+          padding: 3px;
+          -webkit-appearance: button;
+          -moz-appearance: button;
+          appearance: button;
+      
+          text-decoration: none;
+          color: initial;
+        }
       </style>";
 
     //Execute table selection query.
@@ -147,10 +157,10 @@
 
           //Append buttons to end of row.
           echo  "<td class=\"buttonColumn\">".
-                  "<a href=\"index.php?fetch" . $GLOBALS["page"] . "=true&editRow=" . $pKeys . "\">Edit</a>".
+                  "<a class=\"button\" href=\"index.php?fetch" . $GLOBALS["page"] . "=true&editRow=" . $pKeys . "\">Edit</a>".
                 "</td>".
                 "<td class=\"buttonColumn\">".
-                  "<a href=\"index.php?fetch" . $GLOBALS["page"] . "=true&deleteRow=" . $pKeys . "\">Delete</a>".
+                  "<a class=\"button\" href=\"index.php?fetch" . $GLOBALS["page"] . "=true&deleteRow=" . $pKeys . "\">Delete</a>".
                 "</td> </tr>";
         }
 
@@ -179,8 +189,7 @@
   function deleteRow($tableName) {
     global $conn;
     connectToDatabase();
-
-    echo $tableName;
+    
   }
   
   //STUDENT
