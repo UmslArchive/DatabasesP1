@@ -216,9 +216,13 @@
     if(isset($_GET["deleteRow"])) {
       deleteRow("student", "student_number");
     }
-
+    
     //Display table and load the webpage.
     fetchTable("student");
+
+    //Placed the new row button in a div, so javascript can change the innerHTML of the div on click.
+    echo "<br><br>";
+    echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
   }
 
   //COURSE
@@ -231,6 +235,10 @@
     }
 
     fetchTable("course");
+
+    //Placed the new row button in a div, so javascript can change the innerHTML of the div on click.
+    echo "<br><br>";
+    echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
   }
 
   //SECTION
@@ -243,6 +251,10 @@
     }
 
     fetchTable("section");
+
+    //Placed the new row button in a div, so javascript can change the innerHTML of the div on click.
+    echo "<br><br>";
+    echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
   }
 
   //GRADE_REPORT
@@ -255,6 +267,10 @@
     }
 
     fetchTable("grade_report");
+
+    //Placed the new row button in a div, so javascript can change the innerHTML of the div on click.
+    echo "<br><br>";
+    echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
   }
 
   //PREREQ
@@ -267,9 +283,9 @@
     }
     
     fetchTable("prerequisite");
-  }
 
-  //Placed the new row button in a div, so javascript can change the innerHTML of the div on click.
-  echo "<br><br>";
-  echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
+    //Placed the new row button in a div, so javascript can change the innerHTML of the div on click.
+    echo "<br><br>";
+    echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
+  }
 ?>

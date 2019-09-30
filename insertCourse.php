@@ -1,4 +1,4 @@
 <?php
     include 'index.php';
     include 'insertNewRow.php';
-    insertRow("gourse");
+    insertRow("course");

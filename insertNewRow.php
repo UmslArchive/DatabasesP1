@@ -16,6 +16,17 @@
             }
         }
         $result = $conn->query($sql);
+
+        if($result !== TRUE) {
+            echo "Error: <br>" . $conn->error;
+        }
+
         mysqli_close($conn);
+
+        fetchTable($tableName);
+
+        //Placed the new row button in a div, so javascript can change the innerHTML of the div on click.
+        echo "<br><br>";
+        echo "<div id=\"updateDiv\"> <button onclick=newRowClicked(\"" . $GLOBALS["page"] . "\") id=\"newRowButton\">New Row</button> </div>";
     }
 ?>
