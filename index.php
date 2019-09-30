@@ -186,9 +186,25 @@
   }
 
 
-  function deleteRow($tableName) {
+  function deleteRow($tableName, $pKeyName) {
     global $conn;
     connectToDatabase();
+    if($conn->connect_error) {
+      die("Connection Failed: " . $conn->connect_error);
+    }
+
+    //Build the query string.
+    $sql = "DELETE FROM ".$tableName." WHERE ".$pKeyName."=".$_GET["deleteRow"];
+    echo $sql;
+
+    //Execute the deleteion query.
+    if ($conn->query($sql) === TRUE) {
+      echo "Record deleted successfully";
+    } else {
+      echo "Error deleting record: " . $conn->error;
+    }
+  
+    $conn->close();
     
   }
   
@@ -198,7 +214,7 @@
 
     //Update tables before display.
     if(isset($_GET["deleteRow"])) {
-      deleteRow("student");
+      deleteRow("student", "student_number");
     }
 
     //Display table and load the webpage.
@@ -211,7 +227,7 @@
 
     //Update.
     if(isset($_GET["deleteRow"])) {
-      deleteRow("course");
+      deleteRow("course", "course_number");
     }
 
     fetchTable("course");
@@ -223,7 +239,7 @@
 
     //Update.
     if(isset($_GET["deleteRow"])) {
-      deleteRow("section");
+      deleteRow("section", "section_identifier");
     }
 
     fetchTable("section");
