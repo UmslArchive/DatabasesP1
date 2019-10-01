@@ -158,7 +158,7 @@
 
           //Append buttons to end of row.
           echo  "<td class=\"buttonColumn\">".
-                  "<button onclick=\"editButtonClicked('" . $GLOBALS["page"] . "', '" . $j . "')\" id=\"editButton\">Edit</button>".
+                  "<button onclick=\"editButtonClicked('" . $GLOBALS["page"] . "', '" . (string)($j + 1) . "')\" id=\"editButton\">Edit</button>".
                 "</td>".
                 "<td class=\"buttonColumn\">".
                   "<a class=\"button\" href=\"index.php?fetch" . $GLOBALS["page"] . "=true&deleteRow=" . $pKeys . "\">Delete</a>".
