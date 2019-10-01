@@ -39,7 +39,7 @@
   //Global db connection variables.
   $servername = "localhost";
   $username = "root";
-  $password = "root";
+  $password = "";
   $dbname = "p1";
   $conn = NULL;
 
