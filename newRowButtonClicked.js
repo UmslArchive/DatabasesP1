@@ -19,6 +19,6 @@ function newRowClicked(page, selectedRow) {
         var currentAttribute = currentTable.rows[0].cells[i].innerHTML;
         updateDivHTMLString += "<input type=\"text\" onclick=\"this.select()\" name=\"" + currentAttribute + "\" value=\"" + currentAttribute + "\">"
     }
-    updateDivHTMLString += "<input type=\"submit\" value=\"Update\"> </form>";
+    updateDivHTMLString += "<input type=\"submit\" value=\"Enter\"> </form>";
     updateDiv.innerHTML = updateDivHTMLString;
 }
