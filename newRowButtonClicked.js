@@ -12,7 +12,7 @@ function newRowClicked(page, selectedRow) {
 
     //Build innerHTML string.
     var updateDivHTMLString = "";
-    updateDivHTMLString += "<form action=\"update" + page + ".php\">";
+    updateDivHTMLString += "<form action=\"insert" + page + ".php\">";
     
     //Append inputs to the string based on number of columns in the table.
     for(i = 0; i < tableCols; i++) {
