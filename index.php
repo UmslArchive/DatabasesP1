@@ -194,10 +194,11 @@
     }
 
     //Build the query string.
-    $sql = "DELETE FROM ".$tableName." WHERE ".$pKeyName."=".$_GET["deleteRow"];
+    $sql = "DELETE FROM ".$tableName." WHERE ".$pKeyName."='".$_GET["deleteRow"]."'";
     echo $sql;
 
     //Execute the deleteion query.
+    echo "<br>";
     if ($conn->query($sql) === TRUE) {
       echo "Record deleted successfully";
     } else {
