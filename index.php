@@ -38,7 +38,7 @@
   //Global db connection variables.
   $servername = "localhost";
   $username = "root";
-  $password = "root";
+  $password = "";
   $dbname = "p1";
   $conn = NULL;
 
@@ -149,7 +149,7 @@
               $pKeys = $row[$fields[$i]];
             }
             if($tableName === "grade_report" && $i === 0) {
-              $pKeys = $row[$fields[$i]];
+              $pKeys = $row[$fields[$i]] . "&sid=".$row[$fields[$i + 1]];
             }
 
             echo "<td>".$row[$fields[$i]]."</td>";
@@ -176,8 +176,8 @@
       }
       else {
         //query failed.
-        echo "<br>Query failed. Table is probably empty. Dunno how to parse ->query() errors. Table isn't displayed because empty, so everything breaks.";
-        echo "<br>If the tables aren't empty, try changing the \$password variable to \"root\".";
+        echo "<br>Query failed. Table is probably empty, so everything breaks.";
+        echo "<br>If the tables aren't empty, try changing the \$password variable to \"root\" or empty string.";
       }
 
       //close the connection.
@@ -193,8 +193,15 @@
       die("Connection Failed: " . $conn->connect_error);
     }
 
+    if(is_array($pKeyName)) {
+      foreach($pKeyName as $pkeyElement) {
+        echo $pkeyElement;
+        echo "<br>";
+      }
+    }      
+
     //Build the query string.
-    $sql = "DELETE FROM ".$tableName." WHERE ".$pKeyName."=".$_GET["deleteRow"];
+    $sql = "DELETE FROM ".$tableName." WHERE ".$pKeyName."='".$_GET["deleteRow"]."'";
     echo $sql;
 
     //Execute the deleteion query.
@@ -263,7 +270,8 @@
 
     //Update.
     if(isset($_GET["deleteRow"])) {
-      deleteRow("grade_report");
+      $pkey = array("student_number", "section_identifier");
+      deleteRow("grade_report", $pkey);
     }
 
     fetchTable("grade_report");
