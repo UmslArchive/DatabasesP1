@@ -9,6 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="clickEventFunctions.js"></script>
+  <script src="editButtonClicked.js"></script>
 </head>
 <body>
 
@@ -157,7 +158,7 @@
 
           //Append buttons to end of row.
           echo  "<td class=\"buttonColumn\">".
-                  "<a class=\"button\" href=\"index.php?fetch" . $GLOBALS["page"] . "=true&editRow=" . $pKeys . "\">Edit</a>".
+                  "<button onclick=editButtonClicked(\"" . $GLOBALS["page"] . "\") id=\"editButton\">Edit</button>".
                 "</td>".
                 "<td class=\"buttonColumn\">".
                   "<a class=\"button\" href=\"index.php?fetch" . $GLOBALS["page"] . "=true&deleteRow=" . $pKeys . "\">Delete</a>".
@@ -252,7 +253,7 @@
 
     //Update.
     if(isset($_GET["deleteRow"])) {
-      deleteRow("grade_report");
+      deleteRow("grade_report", "student_number");
     }
 
     fetchTable("grade_report");
@@ -264,7 +265,7 @@
 
     //Update.
     if(isset($_GET["deleteRow"])) {
-      deleteRow("prerequisite");
+      deleteRow("prerequisite", "course_number");
     }
     
     fetchTable("prerequisite");
