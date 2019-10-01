@@ -16,6 +16,15 @@
             }
         }
         $result = $conn->query($sql);
+
+        echo "<br>";
+        if ($result === TRUE) {
+            echo "'" . $tableName . "' table was inserted into successfully.";
+        } 
+        else {
+            echo "Error inserting a new row: " . $conn->error;
+        }
+        
         mysqli_close($conn);
     }
 ?>
