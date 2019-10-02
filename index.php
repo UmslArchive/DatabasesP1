@@ -8,8 +8,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- My scripts -->
   <script src="newRowButtonClicked.js"></script>
   <script src="editButtonClicked.js"></script>
+  <script src="sortTable.js"></script>
 </head>
 <body>
 
@@ -158,17 +160,20 @@
 
           //Append buttons to end of row.
           echo  "<td class=\"buttonColumn\">".
-                  "<button onclick=\"editButtonClicked('" . $GLOBALS["page"] . "', '" . (string)($j + 1) . "')\" id=\"editButton\">Edit</button>".
+                  "<button onclick=\"editButtonClicked('" . $GLOBALS["page"] . "', '" . (string)($j + 1) . "')\" id=\"editButton\">Edit</button>".    //edit button
                 "</td>".
                 "<td class=\"buttonColumn\">".
-                  "<a class=\"button\" href=\"index.php?fetch" . $GLOBALS["page"] . "=true&deleteRow=" . $pKeys . "\">Delete</a>".
+                  "<a class=\"button\" href=\"index.php?fetch" . $GLOBALS["page"] . "=true&deleteRow=" . $pKeys . "\">Delete</a>".                    //delete button.
                 "</td> </tr>";
         }
 
         //Add sort buttons.
         echo "<tr>";
         for($i = 0; $i < count($fields); $i++) {
-          echo "<td class=\"buttonRow\"> <button id=sortAscendingButton".$i.">Up</button> <button id=sortDescendingButton".$i.">Down</button> </td>";
+          echo "<td class=\"buttonRow\">".
+                  "<button onclick=\"sortTableByColumn('" . $GLOBALS["page"] . "', '" . $i . "', 'up')\">Up</button>".      //up button
+                  "<button onclick=\"sortTableByColumn('" . $GLOBALS["page"] . "', '" . $i . "', 'down')\">Down</button>".  //down button
+               "</td>";
         }
         echo "</tr>";
         
@@ -177,8 +182,8 @@
       }
       else {
         //query failed.
-        echo "<br>Query failed. Table is probably empty. Dunno how to parse ->query() errors. Table isn't displayed because empty, so everything breaks.";
-        echo "<br>If the tables aren't empty, try changing the \$password variable to \"root\".";
+        echo "<br>Query failed. Table is probably empty, so everything breaks.";
+        echo "<br>If the tables aren't empty, try changing the \$password variable to \"root\" or empty string.";
       }
 
       //close the connection.
