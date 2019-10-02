@@ -14,10 +14,16 @@ function editButtonClicked(page, selectedRow) {
     updateDivHTMLString += "<form action=\"update" + page + ".php\">";
 
     //Append inputs to the string based on number of columns in the table.
-    for(i = 0; i < tableCols; i++) {
-        var headerVal = currentTable.rows[0].cells[i].innerHTML;
-        var currentAttribute = currentTable.rows[selectedRow].cells[i].innerHTML;
-        updateDivHTMLString += "<input type=\"text\" onclick=\"this.select()\" name=\"" + headerVal + "\" value=\"" + currentAttribute + "\">"
+    for(i = 0; i < tableCols * 2; i++) {
+        var headerVal = currentTable.rows[0].cells[i % tableCols].innerHTML;
+        var currentAttribute = currentTable.rows[selectedRow].cells[i % tableCols].innerHTML;
+        if(i < tableCols) {
+            updateDivHTMLString += "<input type=\"text\" onclick=\"this.select()\" name=\"" + headerVal + "\" value=\"" + currentAttribute + "\">";
+        }   
+        else {
+            updateDivHTMLString += "<input type=\"hidden\" onclick=\"this.select()\" name=\"ORIGINAL" + headerVal + "\" value=\"" + currentAttribute + "\">";
+        }
+            
     }
     updateDivHTMLString += "<input type=\"submit\" value=\"Update\"> </form>";
     updateDiv.innerHTML = updateDivHTMLString;
